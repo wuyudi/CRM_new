@@ -7,5 +7,5 @@ def hello(request):
 
 
 def login_view(request):
-    return HttpResponse("login page")
+    return render(request,'login.html',{})
 # Create your views here.

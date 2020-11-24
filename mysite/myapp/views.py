@@ -11,7 +11,6 @@ def login_view(request):
 
 
 def register_view(request):
-    data = request.POST.get()
     return render(request, 'register.html', {})
 
 

@@ -40,20 +40,22 @@ def register_view(request):
         error_msg="两次输入密码不一致"
         print("different password")
     else:
-        redirect("./")
-        # if len(str(username)) < 6:
-        #     error_msg = "用户名过短"
-        #     print(error_msg)
-        # elif db_username:
-        #     error_msg = "用户已存在"
-        #     print(error_msg)
-        # else:
-        #     new_user=LoginModel.objects.create()
-        #     new_user.username=username
-        #     new_user.password=password
-        #     new_user.save()
-        #     redirect("../")
-    return render(request, 'register.html', {})
+        if len(str(username)) < 6:
+            error_msg = "用户名过短"
+            print(error_msg)
+        elif db_username:
+            error_msg = "用户已存在"
+            print(error_msg)
+        else:
+            new_user=LoginModel.objects.create()
+            new_user.username=username
+            new_user.password=password
+            new_user.save()
+            error_msg = "注册成功"
+    context={
+        "error_msg": error_msg,
+    }
+    return render(request, 'register.html',context)
 
 
 def main_view(request):

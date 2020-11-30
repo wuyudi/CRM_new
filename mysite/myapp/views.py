@@ -32,6 +32,27 @@ def login_view(request):
 
 
 def register_view(request):
+    username=request.POST.get("username")
+    password=request.POST.get("pass")
+    confirm_password=request.POST.get("confirm_pass")
+    db_username=LoginModel.objects.filter(username=username)
+    if password!=confirm_password:
+        error_msg="两次输入密码不一致"
+        print("different password")
+    else:
+        redirect("./")
+        # if len(str(username)) < 6:
+        #     error_msg = "用户名过短"
+        #     print(error_msg)
+        # elif db_username:
+        #     error_msg = "用户已存在"
+        #     print(error_msg)
+        # else:
+        #     new_user=LoginModel.objects.create()
+        #     new_user.username=username
+        #     new_user.password=password
+        #     new_user.save()
+        #     redirect("../")
     return render(request, 'register.html', {})
 
 

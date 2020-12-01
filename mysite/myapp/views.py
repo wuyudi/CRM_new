@@ -3,10 +3,6 @@ from django.http import HttpResponse
 from .models import LoginModel
 
 
-def hello(request):
-    return HttpResponse("<p>hello world</p>")
-
-
 def login_view(request):
     username = request.POST.get("username")
     error_msg = ""
@@ -18,7 +14,8 @@ def login_view(request):
             db_password = item.password
         if db_password == request.POST.get("pass"):
             print("login success")
-            return redirect("/main")
+            request.session["username"]=username
+            return redirect("/shopping")
         else:
             print("wrong password")
     else:
@@ -58,8 +55,12 @@ def register_view(request):
     return render(request, 'register.html',context)
 
 
-def main_view(request):
-    return render(request, "main.html", {})
+def shopping_view(request):
+    username=request.session["username"]
+    context={
+        "username":username
+    }
+    return render(request, "shopping.html", context)
 
 
 # Create your views here.

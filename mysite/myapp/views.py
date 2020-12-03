@@ -62,7 +62,7 @@ def shopping_view(request):
     for item in cart_data:
         cart_products.append(item.number)
     print(cart_products)
-    max_price_diff = 1
+    max_price_diff = 0
 
     def close_degree(type1, type2, price1, price2):
         if type1 == "轻薄本":
@@ -82,9 +82,18 @@ def shopping_view(request):
 
     index = 1
     other_products = []
+    max_price = 0
+    min_price = -1
     while 1:
         product_info = ProductsModel.objects.filter(number=index)
         if product_info:
+            for item in product_info:
+                if item.price > max_price:
+                    max_price = item.price
+                if min_price == -1:
+                    min_price = item.price
+                elif item.price < min_price:
+                    min_price = item.price
             if index not in cart_products:
                 temp_list = []
                 for item in product_info:
@@ -98,16 +107,20 @@ def shopping_view(request):
             break
     index = 1
     min_close_degree = 2.0
+    max_price_diff = max_price - min_price
     for item in other_products:
         for i in cart_products:
             product_info = ProductsModel.objects.filter(number=i)
             for item0 in product_info:
-                type2 = item0.type
-                price2 = item0.price
-            if close_degree(item[2], type2, item[3], price2) < min_close_degree:
-                min_close_degree = close_degree(item[2], type2, item[3], price2)
+                type_2 = item0.type
+                price_2 = item0.price
+            if close_degree(item[2], type_2, item[3], price_2) < min_close_degree:
+                min_close_degree = close_degree(item[2], type_2, item[3], price_2)
                 index = item[0]
-    print(index)
+    print(max_price_diff, index)
+
+    add_number=request.POST.get("add")
+    print(add_number)
     context = {
         "username": username,
         "cart_products": cart_products,

@@ -107,7 +107,7 @@ def shopping_view(request):
             if close_degree(item[2], type2, item[3], price2) < min_close_degree:
                 min_close_degree = close_degree(item[2], type2, item[3], price2)
                 index = item[0]
-
+    print(index)
     context = {
         "username": username,
         "cart_products": cart_products,

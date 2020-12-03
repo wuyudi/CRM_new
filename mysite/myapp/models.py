@@ -16,6 +16,6 @@ class ProductsModel(models.Model):
 
 class CartModel(models.Model):
     username = models.CharField(max_length=20)
-    number = models.IntegerField()
+    number = models.IntegerField(default=1)
 
 # Create your models here.

@@ -119,11 +119,18 @@ def shopping_view(request):
                 index = item[0]
     print(max_price_diff, index)
 
-    add_number=request.POST.get("add")
+    add_number=request.POST.get("add_number")
     print(add_number)
+    if add_number is not None:
+        cart_info=CartModel.objects.filter(username=username, number=add_number)
+        if not cart_info:
+            new_record=CartModel.objects.create()
+            new_record.username=username
+            new_record.number=add_number
+            new_record.save()
+            print("save success")
     context = {
         "username": username,
-        "cart_products": cart_products,
         "index": index
     }
     return render(request, "shopping.html", context)

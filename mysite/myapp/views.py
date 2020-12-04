@@ -129,9 +129,15 @@ def shopping_view(request):
             new_record.number=add_number
             new_record.save()
             print("save success")
+    product_data_all=ProductsModel.objects.filter()
+    product=[]
+    for item in product_data_all:
+        product.append([item.number,item.brand,item.name,item.type,item.price])
+    print(product)
     context = {
         "username": username,
-        "index": index
+        "index": index,
+        "product":product
     }
     return render(request, "shopping.html", context)
 

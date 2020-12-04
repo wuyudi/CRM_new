@@ -12,17 +12,17 @@
     选择了 {% for i in chosen %}  {{ i }}, {% endfor %}号商品
   </div>
       <div class="row">
-        {% for id,des in 推荐列表 %}
+        {% for id,des,link in 推荐列表 %}
         <div class="col-md-6">
           <img
             alt="Bootstrap Image Preview"
-            src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg"
+            src={{link}}
           />
         </div>
         <div class="col-md-6">
           <dl>
             <dt>{{ id }} 号商品</dt>
-            <dd>{{ des }}</dd>
+            <dd>{{ des.0 }}</dd>
           </dl>
         </div>
         {% endfor %}
@@ -31,20 +31,20 @@
     <div class="col-md-6">
       <h3>商品列表</h3>
       <div class="row">
-        {% for id,miao_shu in 商品列表 %}
+        {% for id,miao_shu_and_pic in 商品列表 %}
         <form action="" method="POST">
           {% csrf_token %}
         <div class="col-md-4">
           <input type="checkbox" value={{id}} name="check_box_list" />
           <img
             alt="Bootstrap Image Preview"
-            src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg"
+            src={{miao_shu_and_pic.1}}
           />
         </div>
         <div class="col-md-8">
           <dl>
             <dt>{{ id }} 号商品</dt>
-            <dd>{{ miao_shu }}</dd>
+            <dd>{{ miao_shu_and_pic.0 }}</dd>
             </dd>
           </dl>
         </div>

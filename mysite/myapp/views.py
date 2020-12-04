@@ -52,7 +52,7 @@ def register_view(request):
     context = {
         "error_msg": error_msg,
     }
-    return render(request, 'register.html', context)
+    return render(request, "register.html", context)
 
 
 def shopping_view(request):
@@ -65,20 +65,9 @@ def shopping_view(request):
     max_price_diff = 0
 
     def close_degree(type1, type2, price1, price2):
-        if type1 == "轻薄本":
-            type1_num = 0
-        elif type1 == "全能本":
-            type1_num = 0.5
-        elif type1 == "游戏本":
-            type1_num = 1
-        if type2 == "轻薄本":
-            type2_num = 0
-        elif type2 == "全能本":
-            type2_num = 0.5
-        elif type2 == "游戏本":
-            type2_num = 1
-        return (type1_num - type2_num) * (type1_num - type2_num) + (abs(price1 - price2) / max_price_diff) * (
-                abs(price1 - price2) / max_price_diff)
+        type1_num = {"轻薄本": 0, "全能本": 0.5, "游戏本": 1}[type1]
+        type2_num = {"轻薄本": 0, "全能本": 0.5, "游戏本": 1}[type2]
+        return (type1_num - type2_num) * (type1_num - type2_num) + (abs(price1 - price2) / max_price_diff) * (abs(price1 - price2) / max_price_diff)
 
     index = 1
     other_products = []
@@ -119,26 +108,23 @@ def shopping_view(request):
                 index = item[0]
     print(max_price_diff, index)
 
-    add_number=request.POST.get("add_number")
+    add_number = request.POST.get("add_number")
     print(add_number)
     if add_number is not None:
-        cart_info=CartModel.objects.filter(username=username, number=add_number)
+        cart_info = CartModel.objects.filter(username=username, number=add_number)
         if not cart_info:
-            new_record=CartModel.objects.create()
-            new_record.username=username
-            new_record.number=add_number
+            new_record = CartModel.objects.create()
+            new_record.username = username
+            new_record.number = add_number
             new_record.save()
             print("save success")
-    product_data_all=ProductsModel.objects.filter()
-    product=[]
+    product_data_all = ProductsModel.objects.filter()
+    product = []
     for item in product_data_all:
-        product.append([item.number,item.brand,item.name,item.type,item.price])
+        product.append([item.number, item.brand, item.name, item.type, item.price])
     print(product)
-    context = {
-        "username": username,
-        "index": index,
-        "product":product
-    }
+    context = {"username": username, "index": index, "product": product}
     return render(request, "shopping.html", context)
+
 
 # Create your views here.
